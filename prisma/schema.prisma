@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ১. Role enum ডিফাইন করা হলো
+enum Role {
+  USER
+  ADMIN
+}
+
+// ২. Order Status enum (অতিরিক্ত হিসেবে যোগ করা ভালো)
+enum OrderStatus {
+  PENDING
+  DELIVERED
+  CANCELLED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+
+  role      String   @default("USER")
+
+  orders    Order[]
+  reviews   Review[]
+
+  createdAt DateTime @default(now())
+}
+
+model Food {
+   id          String   @id @default(uuid())
+  title       String
+  description String
+  price       Float
+  image       String
+  category    String
+
+  orders      Order[]
+  reviews     Review[]
+
+  createdAt   DateTime @default(now())
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  quantity    Int
+  totalPrice  Float
+  status      OrderStatus @default(PENDING) // 👈 String এর বদলে Enum OrderStatus ব্যবহার করা হয়েছে
+
+  userId      String
+  foodId      String
+
+  user        User        @relation(fields: [userId], references: [id])
+  food        Food        @relation(fields: [foodId], references: [id])
+
+  createdAt   DateTime @default(now())
+}
+
+model Review {
+  id        String   @id @default(uuid())
+
+  rating    Int
+  comment   String
+
+  userId    String
+  foodId    String
+
+  user      User     @relation(fields: [userId], references: [id])
+  food      Food     @relation(fields: [foodId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, foodId])
+}

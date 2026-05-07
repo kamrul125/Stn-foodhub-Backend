@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "ES2022",                                  /* modern Node.js সংস্করণগুলোতে ES2022 বেশ ভালো কাজ করে */
+    "module": "NodeNext",                                /* আধুনিক মডিউল সিস্টেমের জন্য */
+    "moduleResolution": "NodeNext",
+    
+    /* Interop Constraints */
+    "esModuleInterop": true,                             /* CommonJS এবং ES Modules এর মধ্যে সমন্বয় করার জন্য */
+    "forceConsistentCasingInFileNames": true,            /* ফাইল নেমিং এর সমতা বজায় রাখতে */
+
+    /* Type Checking */
+    "strict": true,                                      /* সব টাইপ চেকিং স্ট্রিক্ট রাখার জন্য */
+    "skipLibCheck": true,                                /* লাইব্রেরি ফাইলের টাইপ চেকিং স্কিপ করে বিল্ড টাইম কমাতে */
+    
+    /* Emit */
+    "outDir": "./dist",                                  /* কম্পাইল হওয়া ফাইলগুলো এই ফোল্ডারে যাবে */
+    "rootDir": "./src",                                  /* সোর্স কোড যেখানে থাকবে */
+    "removeComments": true,                              /* বিল্ড করার সময় কমেন্ট মুছে ফেলার জন্য */
+    "noEmitOnError": true                                /* কোডে এরর থাকলে বিল্ড ফাইল জেনারেট হবে না */
+  },
+  "include": ["src/**/*"],                               /* শুধুমাত্র src ফোল্ডারের ফাইল কম্পাইল হবে */
+  "exclude": ["node_modules", "dist"]                    /* এই ফোল্ডারগুলো কম্পাইলার ইগনোর করবে */
+}
