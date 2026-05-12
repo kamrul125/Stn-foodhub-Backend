@@ -5,12 +5,18 @@ import globalErrorHandler from "./app/middleware/globalErrorHandler";
 
 const app: Application = express();
 
-// ✅ 1. Middleware
-// প্রোডাকশনে সুরক্ষার জন্য origin নির্দিষ্ট করে দেওয়া ভালো
+// ✅ 1. Middleware (সংশোধিত CORS)
 app.use(cors({
-  origin: ["http://localhost:3000", "http://localhost:5173"], // আপনার ফ্রন্টেন্ডের লোকাল পোর্ট
-  credentials: true
+  origin: [
+    "http://localhost:3000", 
+    "http://localhost:5173",
+    "https://stn-foodhub-frontend.vercel.app" // আপনার ভার্সেল ফ্রন্টএন্ডের লিংকটি এখানে যোগ করা হয়েছে
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 app.use(express.json());
 
 // ✅ 2. API Routes
@@ -24,7 +30,7 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-// ✅ 4. Not Found Route (সঠিক অর্ডারে আছে)
+// ✅ 4. Not Found Route
 app.use((req: Request, res: Response) => {
   res.status(404).json({
     success: false,
@@ -32,7 +38,7 @@ app.use((req: Request, res: Response) => {
   });
 });
 
-// ✅ 5. Global Error Handler (সবার শেষে থাকবে)
+// ✅ 5. Global Error Handler
 app.use(globalErrorHandler);
 
 export default app;
